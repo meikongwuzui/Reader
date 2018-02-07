@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="assets/css/ddfullscreenslider.css"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/common.css"/>
+		<style type="text/css">
+			.fssnav{display: none;}
+			
+			article.slide div.flex-container{height: 100%;background: #e9e6da;}
+			article.slide img{width: 70%;background-size: cover;align-self: flex-start;margin: 20% 0 0 4%;}
+			article.slide p{width: 20px;height: 50%;align-self: flex-end;}
+			article.slide p:nth-of-type(2){text-indent: 1em;}
+			article.slide p:nth-of-type(3){text-indent: 2em;}
+		</style>
+	</head>
+	<body>
+		<section id="dowebok" class="dd_fullscreenslider">
+			<div class="slidewrapper" id="app">
+				<myarticle v-for="item in items" :item="item"></myarticle>
+			</div>
+		</section>
+	</body>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="assets/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/js/jquery.mousewheel.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/js/ddfullscreenslider.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		Vue.component('myarticle',{
+			props:['item'],
+			template: '<article class="slide">'
+				    +'		<div class="flex-container flex-end">'
+					+'			<img v-bind:src="item.img" alt="">'
+					+'			<p v-for="txt in item.txtList" class="txt-Vertical">{{txt}}</p>'
+					+'		</div>'
+					+'	</article>'
+		})
+		
+		var vm=new Vue({
+			el:'#app',
+			data:{
+				items:[
+					{img:'assets/img/child/a.jpeg',txtList:['小时候以为','打破碗的事','是天大的事']},
+					{img:'assets/img/child/b.jpeg',txtList:['小时候爱扮姻缘','但长大了才发现','最最游戏不得的，便是姻缘']},
+					{img:'assets/img/child/c.jpeg',txtList:['小时候','最亲的那个人','走得最早']},
+					{img:'assets/img/child/d.jpeg',txtList:['小时候','我们从不相信','自己也会老']},
+					{img:'assets/img/child/e.jpeg',txtList:['小时候，我们等爸爸归来','就像现在','孩子等我们回家']},
+					{img:'assets/img/child/f.jpeg',txtList:['小时候','没有车水马龙','只有人来人往']},
+					{img:'assets/img/child/h.jpeg',txtList:['小时候','知识和信息都是纸质的']},
+					{img:'assets/img/child/i.jpeg',txtList:['小时候','没有高楼上','只有杨柳下']},
+					{img:'assets/img/child/j.jpeg',txtList:['小时候','我们闲来追蝴蝶','现在只追梦']},
+					{img:'assets/img/child/k.jpeg',txtList:['小时候放过的牛','早已走完它的一生']},
+					{img:'assets/img/child/l.jpeg',txtList:['小时候','衣服都是妈妈一针一线缝的']},
+					{img:'assets/img/child/m.jpeg',txtList:['小时候','虽然拥有很少','但我们乐子很多']},
+					{img:'assets/img/child/n.jpeg',txtList:['小时候','什么都当真','包括稻草人']},
+					{img:'assets/img/child/o.jpeg',txtList:['小时候','粗茶淡饭','吃得很香']},
+					{img:'assets/img/child/p.jpeg',txtList:['小时候','放过爆竹','才算过了个年']},
+					{img:'assets/img/child/q.jpeg',txtList:['小时候真是傻','居然盼长大']},
+					{img:'assets/img/child/r.jpeg',txtList:['小时候','没有空调','最讨好妈妈的活就是给她打扇']},
+					{img:'assets/img/child/s.jpeg',txtList:['小时候','干过最坏的事儿','就是用簸箕捕鸟']},
+					{img:'assets/img/child/t.jpeg',txtList:['小时候','镜子里照见的','都是本来面目']},
+					{img:'assets/img/child/u.jpeg',txtList:['小时候','大人舍得放养','孩子也懂得自强']},
+					{img:'assets/img/child/v.jpeg',txtList:['小时候','放学不是各回各家','还会一起写作业']},
+					{img:'assets/img/child/w.jpeg',txtList:['小时候穷','但大人不急不忙']},
+					{img:'assets/img/child/x.jpeg',txtList:['小时候','江水可浣衣','江上可行船']},
+					{img:'assets/img/child/y.jpeg',txtList:['小时候走亲访友','不乘车马','日落而归']},
+					{img:'assets/img/child/z.jpeg',txtList:['小时候','家人朝夕相处','燕子年年归来']},
+					{img:'assets/img/child/aa.jpeg',txtList:['小时候','抬头可见星辰','举手可摘月亮']},
+					{img:'assets/img/child/bb.jpeg',txtList:['小时候','城市很远','乐在山水之间也']},
+					{img:'assets/img/child/cc.jpeg',txtList:['小时候的秋天','游人很少','红叶飘飘']},
+					{img:'assets/img/child/dd.jpeg',txtList:['小时候','邻居是相识的','人心是透亮的']},
+					{img:'assets/img/child/ee.jpeg',txtList:['小时候没有导航','山中访友','迷途还问牧童']},
+					{img:'assets/img/child/ff.jpeg',txtList:['小时候','写一手好字','是很骄傲的事儿']},
+					{img:'assets/img/child/gg.jpeg',txtList:['小时候','女人不当半边天','在家养娃打毛线']},
+					{img:'assets/img/child/hh.jpeg',txtList:['小时候约人','没有电话联络','唯有月下苦等']},
+					{img:'assets/img/child/ii.jpeg',txtList:['小时候','节日是不堵的','风景是天然的']}
+				]
+			}
+		})
+		
+		var fss;
+		$(function() {
+			fss = new ddfullscreenslider({
+				sliderid: 'dowebok',
+				addHash:false
+			});
+		});
+	</script>
+</html>

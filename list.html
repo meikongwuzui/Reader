@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/common.css"/>
+    <style type="text/css">
+    	#title{align-self: flex-start;}
+    	
+    	h2,p{font-family: KaiTi , FangSong;}
+    </style>
+</head>
+<body>
+	<div id="ld-main">
+		<ld-item v-bind:ldmodal='ldmodal' v-on:next="next" v-on:prev="prev"></ldItem>
+	</div>
+</body>
+</html>
+<script src="https://unpkg.com/vue"></script>
+<script src="assets/js/cookie.js"></script>
+<script type="text/javascript">
+	Vue.component('ld-item',{
+		props:['ldmodal'],
+		template:' <div>'
+				+'  <div class="bg-blur" v-bind:style="{background: \'url(\'+ ldmodal.bgImg +\')\' }"></div>'
+				+'	<div class="color-white margin20 margin-bottom0">'
+				+'		<div class="flex-container flex-no-wrap padding20">'
+				+'	    	<div class="w20per flex-shrink-0" id="title">'
+				+'	    		<h2 class="txt-Vertical">{{ldmodal.title}}</h2>' 
+				+'	    	</div>'
+				+'	        <img class="w80per flew-grow-2" v-bind:src="ldmodal.bgImg" alt="">'
+				+'	    </div>'
+				+'	    <div class="flex-container padding20">'
+				+'	    	<p class="">'
+				+'	    		{{ldmodal.content}}'
+				+'		    </p>'
+				+'	    </div>'
+				+'	    <div class="flex-container padding-bottom10" v-on:click="detail(ldmodal.link)">'
+				+'	    		查看详情'
+				+'	    </div>'
+				+'	</div>'
+				+'	<div class="flex-container flex-around" >'
+				+'   	<a class="padding20" href="javascript:void(0);" v-show="ldmodal.hasPrev" v-on:click="prev">上一期</a>'
+				+'   	<a class="padding20" href="javascript:void(0);" v-show="ldmodal.hasNext" v-on:click="next">下一期</a>'
+				+'  </div>'
+				+' </div>',
+		methods:{
+			prev:function(){
+				this.$emit("prev");
+			},
+			next:function(){
+				this.$emit('next');
+			},
+			detail:function(url){
+				location.href=url;
+			}
+		}
+	})
+	
+	var vm=new Vue({
+		el:'#ld-main',
+		data:{
+			ldmodal:{
+				title:'',
+				bgImg:"",
+				content:"",
+				link:'',
+				hasNext:false,
+				hasPrev:false
+			},
+			current:0
+		},
+		methods:{
+			myItem:function(){
+				fetch('http://api.coolwan.cc/api/LD/'+this.current).then(function(res){
+					res.json().then(function(obj){
+						vm.ldmodal.title=obj.title;
+						vm.ldmodal.content=obj.content;
+						vm.ldmodal.bgImg=obj.bgImg;
+						vm.ldmodal.link=obj.link;
+						vm.ldmodal.hasNext=obj.hasNext;
+						if(parseInt(vm.current)>1){
+							vm.ldmodal.hasPrev=true;
+						}
+						else{
+							vm.ldmodal.hasPrev=false;
+						}
+					})
+				})
+			},
+			next:function(){
+				this.current= parseInt(this.current)+1;
+				CookieUtil.set('currentItem',this.current);
+				
+				this.myItem();
+			},
+			prev:function(){
+				this.current=parseInt(this.current)-1;
+				CookieUtil.set('currentItem',this.current);
+				
+				this.myItem();
+			},
+			finit:function(){
+				if(CookieUtil.get('currentItem')){
+					this.current= parseInt(CookieUtil.get('currentItem'));
+				}else{
+					this.current=1;
+				}
+
+				this.myItem();
+			}
+		},
+		created:function(){
+			this.finit();
+		}
+	});
+</script>

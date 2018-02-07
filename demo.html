@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    	html{height: 100%;}
+    	body{margin: 0;}
+    	a{text-decoration: none;}
+    	
+    	/*宽度高度*/
+        .w40 {width:40px;}
+        .w100{width: 100px;}
+        .w300{width: 300px;}
+        .w20per{width: 20%;}
+        .w80per{width: 80%;}
+        .h160{height: 160px;}
+        .h200{height: 200px;}
+        
+        /*间距*/
+        .padding20{padding: 20px;}
+        .padding40{padding: 40px;}
+        .margin20{margin: 20px;}
+        
+        /*背景*/
+        .color-white{background: #fff;}
+        
+        /*文本*/
+        .text-indent{text-indent: 2em;}
+        .txt-Vertical {    
+            margin: 0 auto;   
+            writing-mode: vertical-lr;/*从左向右 从右向左是 writing-mode: vertical-rl;*/    
+            writing-mode: tb-lr;/*IE浏览器的从左向右 从右向左是 writing-mode: tb-rl；*/  
+        }    
+        
+        /*流布局*/
+        .flex-container{
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center
+        }
+        .flew-grow-2{flex-grow:2}
+        .flex-shrink-0{flex-shrink:0}
+        .flex-wrap{flex-wrap: wrap;}
+        .flex-no-wrap{flex-wrap: nowrap;}
+        .flex-end{justify-content: flex-end}
+        
+        /*背景模糊*/
+        .bg-blur{
+        	position: absolute;
+    	    z-index: -99;
+		    top: 0;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+        	background: url(assets/img/child/main.jpg);
+        	width: 100%;
+        	height: 100%;
+        	background-size: 100% 100%;
+        	background-repeat: no-repeat;
+        	opacity: 0.2;
+        }
+    </style> 
+</head>
+<body>
+	<div id="ld-main">
+		<ld-item v-bind:ldmodal='ldmodal' v-on:next="next"></ldItem>
+		<!--<div class="bg-blur"></div>
+		<div class="color-white margin20">
+			<div class="flex-container flex-no-wrap padding20">
+		    	<div class="w20per flex-shrink-0">
+		    		<h2 class="txt-Vertical">{{title}}</h2> 
+		    	</div>
+		        <img class="w80per flew-grow-2" v-bind:src="bgImg" alt="">
+		    </div>
+		    <div class="flex-container padding20">
+		    	<p class="">
+		    		{{content}}
+			    </p>
+		    </div>
+		</div>
+		<div class="flex-container flex-end">
+	    	<a class="padding20" href="javascript:void(0);" v-bind:click="next">下一期</a>
+	    </div>-->
+	</div>
+</body>
+</html>
+<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript">
+	Vue.component('ld-item',{
+		props:['ldmodal'],
+		template:' <div>'
+				+'  <div class="bg-blur"></div>'
+				+'	<div class="color-white margin20">'
+				+'		<div class="flex-container flex-no-wrap padding20">'
+				+'	    	<div class="w20per flex-shrink-0">'
+				+'	    		<h2 class="txt-Vertical">{{ldmodal.title}}</h2>' 
+				+'	    	</div>'
+				+'	        <img class="w80per flew-grow-2" v-bind:src="ldmodal.bgImg" alt="">'
+				+'	    </div>'
+				+'	    <div class="flex-container padding20">'
+				+'	    	<p class="">'
+				+'	    		{{ldmodal.content}}'
+				+'		    </p>'
+				+'	    </div>'
+				+'	</div>'
+				+'	<div class="flex-container flex-end">'
+				+'   	<button class="padding20" href="javascript:void(0);" v-on:click="next">下一期</button>'
+				+'  </div>'
+				+' </div>',
+		methods:{
+			next:function(){
+				this.$emit('next')
+			}
+		}
+	})
+	
+	var vm=new Vue({
+		el:'#ld-main',
+		data:{
+			ldmodal:{
+				title:'小时候',
+				bgImg:"assets/img/child/main.jpg",
+				content:"民国有一位和蔼可亲的老头——丰子恺。他长相清秀，画的画童真童趣，文章也是写的极其清雅质朴，句句至理。他的漫画，也如他的心地一样，善良、温润、有趣。"
+			}
+		},
+		methods:{
+			next:function(){
+				fetch('http://localhost:49932/api/LD/1').then(function(res){
+					res.json().then(function(obj){
+						vm.ldmodal.title=obj.title;
+						vm.ldmodal.content=obj.content;
+					});
+				})
+			}
+		}
+	})
+</script>
